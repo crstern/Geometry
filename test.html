@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="monoton.js"></script>
+    <title>Monoton</title>
+    <style>
+        button {
+            margin-left: 8em;
+        }
+
+        #sweep {
+            background-color: red;
+            position: absolute;
+            width: 90%;
+            font-size: 2px;
+            margin: 0em 6em;
+            left: 100px;
+            z-index: 8;
+            top: 120px;
+        }
+
+        #result {
+            text-align: center;
+            font-size: larger;
+        }
+    </style>
+    <script>
+
+        function myMove() {
+            var elem = document.getElementById("sweep");
+            var pos = 120;
+            var id = setInterval(frame, 5);
+            function frame() {
+                if (pos == 700) {
+                    clearInterval(id);
+                } else {
+                    pos++;
+                    elem.style.top = pos + 'px';
+                }
+            }
+        }
+        var message;
+        if (y_monoton) {
+            message = "Polinomul este y-monoton!";
+        }
+        else message = "Polinomul nu este y-monoton";
+
+        window.onload = function () {
+            if (!y_monoton)
+                document.getElementById("result").innerHTML += message;
+            else {
+                document.getElementById("result").innerHTML += message;
+                document.getElementById("result").innerHTML += "<br>";
+                var lant1 = "";
+                var lant2 = "";
+                for (var i = 0; i < left_brench.length; i++)
+                    lant1 += "(x: " + left_brench[i].x + ", y: " + left_brench[i].y + ")";
+                for (var i = 0; i < right_brench.length; i++)
+                    lant2 += "(x: " + right_brench[i].x + ", y: " + right_brench[i].y + ")";
+                document.getElementById("result").innerHTML += "lantul 1: ";
+                document.getElementById("result").innerHTML += lant1;
+                document.getElementById("result").innerHTML += "<br>";
+                document.getElementById("result").innerHTML += "lantul 2: ";
+                document.getElementById("result").innerHTML += lant2;
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div id="sweep">.</div>
+
+    <div id="tester" style="height: 750px;"></div>
+
+
+    <script>
+        TESTER = document.getElementById('tester');
+
+        Plotly.plot(TESTER, data,
+            layout, { responsive: true });
+    </script>
+    <button onclick="myMove();">Drop!</button>
+    <div id="result"></div>
+</body>
+
+</html>
